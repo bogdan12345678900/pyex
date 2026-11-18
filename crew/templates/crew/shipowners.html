@@ -1,0 +1,23 @@
+{% extends "crew/base.html" %}
+{% load static %}
+{% block title %}Судовладельцам — SeaCrew{% endblock %}
+{% block content %}
+<section class="page wrap page--narrow">
+  <img class="detail-img" src="{% static 'img/shipowner.svg' %}" alt="Порт с кранами и контейнеровоз">
+  <h1>Запрос экипажа</h1>
+  <p class="lead">Укажите тип судна и нужные должности. Мы пришлём список кандидатов с проверенными дипломами и медицинскими заключениями.</p>
+  <form class="form" method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for f in form %}
+    <div class="field">
+      <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+      {{ f }}
+      {% if f.help_text %}<small>{{ f.help_text }}</small>{% endif %}
+      {% for e in f.errors %}<small class="err">{{ e }}</small>{% endfor %}
+    </div>
+    {% endfor %}
+    <button class="btn btn--navy" type="submit">Отправить запрос</button>
+  </form>
+</section>
+{% endblock %}

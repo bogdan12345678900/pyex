@@ -1,0 +1,81 @@
+{% extends "crew/base.html" %}
+{% load static %}
+{% block content %}
+<section class="hero">
+  <svg class="hero__compass" viewBox="0 0 400 400" aria-hidden="true">
+    <g fill="none" stroke="currentColor" stroke-width="1">
+      <circle cx="200" cy="200" r="190"/><circle cx="200" cy="200" r="150"/><circle cx="200" cy="200" r="70"/>
+      <path d="M200 10v380M10 200h380M65 65l270 270M335 65L65 335" stroke-opacity=".5"/>
+    </g>
+    <path d="M200 20l22 158 -22 22 -22 -22z" fill="currentColor"/>
+    <path d="M200 380l-22 -158 22 -22 22 22z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M20 200l158-22 22 22-22 22z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M380 200l-158 22-22-22 22-22z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  </svg>
+  <div class="wrap hero__in">
+    <h1>Ваш следующий контракт ждёт в порту</h1>
+    <p class="hero__lead">Подбираем экипажи для контейнеровозов, танкеров и балкеров. Сейчас открыто вакансий: {{ vacancy_count }}.</p>
+
+    <form class="chart" action="{% url 'vacancy_list' %}" method="get" aria-label="Поиск вакансий">
+      <label>Должность
+        <select name="rank">
+          <option value="">Любая должность</option>
+          {% for r in filter_form.fields.rank.queryset %}<option value="{{ r.pk }}">{{ r.name }}</option>{% endfor %}
+        </select>
+      </label>
+      <label>Тип судна
+        <select name="vessel_type">
+          <option value="">Любой тип судна</option>
+          {% for t in vessel_types %}<option value="{{ t.pk }}">{{ t.name }}</option>{% endfor %}
+        </select>
+      </label>
+      <label>Оклад от, USD
+        <input type="number" name="min_salary" min="0" placeholder="3000">
+      </label>
+      <button class="btn btn--red" type="submit">Найти вакансии</button>
+    </form>
+  </div>
+  <svg class="waves" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+    <path class="w1" d="M0 60c120-40 240-40 360 0s240 40 360 0 240-40 360 0 240 40 360 0V120H0z"/>
+    <path class="w2" d="M0 80c120-30 240-30 360 0s240 30 360 0 240-30 360 0 240 30 360 0V120H0z"/>
+  </svg>
+</section>
+
+<section class="section wrap">
+  <h2>Свежие вакансии</h2>
+  <div class="grid">
+    {% for v in latest %}{% include "crew/_vacancy_card.html" %}{% empty %}
+      <p>Открытых вакансий пока нет. Оставьте анкету — мы напишем, когда появится подходящая.</p>
+    {% endfor %}
+  </div>
+  <p class="more"><a href="{% url 'vacancy_list' %}">Все вакансии</a></p>
+</section>
+
+<section class="band">
+  <div class="wrap band__in">
+    <div>
+      <h2>Как проходит трудоустройство</h2>
+      <ol class="steps">
+        <li><strong>Анкета.</strong> Заполняете форму и прикладываете резюме.</li>
+        <li><strong>Проверка документов.</strong> Сверяем дипломы, сертификаты и медицинское заключение.</li>
+        <li><strong>Собеседование.</strong> Разговор с менеджером, при необходимости — с представителем судовладельца.</li>
+        <li><strong>Контракт и виза.</strong> Подписываем договор по MLC 2006 и оформляем выезд.</li>
+      </ol>
+    </div>
+    <div class="flags" aria-hidden="true">
+      <span class="flag f1"></span><span class="flag f2"></span><span class="flag f3"></span><span class="flag f4"></span>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap audience">
+  <a class="aud" href="{% url 'apply' %}">
+    <img src="{% static 'img/seafarer.svg' %}" alt="" loading="lazy">
+    <div><h2>Вы моряк</h2><p>Оставьте анкету и резюме — подберём контракт по вашей должности и дипломам.</p><span class="btn btn--red">Заполнить анкету</span></div>
+  </a>
+  <a class="aud" href="{% url 'shipowners' %}">
+    <img src="{% static 'img/shipowner.svg' %}" alt="" loading="lazy">
+    <div><h2>Вы судовладелец</h2><p>Опишите нужный экипаж — пришлём проверенных кандидатов с документами.</p><span class="btn btn--navy">Запросить экипаж</span></div>
+  </a>
+</section>
+{% endblock %}

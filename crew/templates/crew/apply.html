@@ -1,0 +1,26 @@
+{% extends "crew/base.html" %}
+{% load static %}
+{% block title %}Анкета моряка — SeaCrew{% endblock %}
+{% block content %}
+<section class="page wrap page--narrow">
+  <img class="detail-img" src="{% static 'img/seafarer.svg' %}" alt="Штурвал на фоне рассвета">
+  <h1>Анкета моряка</h1>
+  {% if vacancy %}<p class="lead">Отклик на вакансию: {{ vacancy.rank }}, {{ vacancy.vessel_type }}, посадка {{ vacancy.joining_date|date:"j E" }}.</p>
+  {% else %}<p class="lead">Заполните анкету — менеджер подберёт подходящие контракты.</p>{% endif %}
+
+  <form class="form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if vacancy %}<input type="hidden" name="vacancy" value="{{ vacancy.pk }}">{% endif %}
+    {{ form.non_field_errors }}
+    {% for f in form %}
+    <div class="field">
+      <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+      {{ f }}
+      {% if f.help_text %}<small>{{ f.help_text }}</small>{% endif %}
+      {% for e in f.errors %}<small class="err">{{ e }}</small>{% endfor %}
+    </div>
+    {% endfor %}
+    <button class="btn btn--red" type="submit">Отправить анкету</button>
+  </form>
+</section>
+{% endblock %}

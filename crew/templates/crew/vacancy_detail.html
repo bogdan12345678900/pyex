@@ -1,0 +1,25 @@
+{% extends "crew/base.html" %}
+{% block title %}{{ vacancy.rank }}, {{ vacancy.vessel_type }} — SeaCrew{% endblock %}
+{% block content %}
+<section class="page wrap page--narrow">
+  <p class="back"><a href="{% url 'vacancy_list' %}">Все вакансии</a></p>
+  <img class="detail-img" src="{{ vacancy.image_url }}" alt="{{ vacancy.vessel_type }}{% if vacancy.vessel_name %} «{{ vacancy.vessel_name }}»{% endif %}">
+  <h1>{{ vacancy.rank }}</h1>
+  <p class="vcard__vessel">{{ vacancy.vessel_type }}{% if vacancy.vessel_name %} «{{ vacancy.vessel_name }}»{% endif %}{% if vacancy.flag %}, флаг: {{ vacancy.flag }}{% endif %}</p>
+
+  <dl class="facts">
+    <div><dt>Оклад</dt><dd>${{ vacancy.salary_usd }} в месяц</dd></div>
+    <div><dt>Контракт</dt><dd>{{ vacancy.contract_months }} мес.</dd></div>
+    <div><dt>Порт посадки</dt><dd>{{ vacancy.joining_port }}</dd></div>
+    <div><dt>Дата посадки</dt><dd>{{ vacancy.joining_date|date:"j E Y" }}</dd></div>
+    <div><dt>Опыт в должности</dt><dd>{% if vacancy.min_experience %}от {{ vacancy.min_experience }} лет{% else %}не требуется{% endif %}</dd></div>
+  </dl>
+
+  {% if vacancy.requirements %}
+  <h2>Требования</h2>
+  <p>{{ vacancy.requirements|linebreaksbr }}</p>
+  {% endif %}
+
+  <a class="btn btn--red" href="{% url 'apply' %}?vacancy={{ vacancy.pk }}">Откликнуться</a>
+</section>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% load static %}<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}SeaCrew — крюинговая компания{% endblock %}</title>
+<meta name="description" content="Крюинговая компания SeaCrew: подбор и трудоустройство моряков на суда торгового флота.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700;800&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+<a class="skip" href="#main">К содержимому</a>
+<header class="top">
+  <div class="wrap top__in">
+    <a class="logo" href="{% url 'home' %}" aria-label="SeaCrew — на главную">
+      <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 4l3 12-3 12-3-12z" fill="currentColor"/><path d="M4 16l12-3 12 3-12 3z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      <span>SeaCrew</span>
+    </a>
+    <nav class="nav" aria-label="Основное меню">
+      <a href="{% url 'vacancy_list' %}">Вакансии</a>
+      <a href="{% url 'apply' %}">Анкета моряка</a>
+      <a href="{% url 'shipowners' %}">Судовладельцам</a>
+    </nav>
+  </div>
+</header>
+
+{% if messages %}
+<div class="wrap">
+  {% for m in messages %}<p class="notice notice--{{ m.tags }}" role="status">{{ m }}</p>{% endfor %}
+</div>
+{% endif %}
+
+<main id="main">{% block content %}{% endblock %}</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <div>
+      <p class="foot__brand">SeaCrew</p>
+      <p>Подбор экипажей для судов торгового флота. Все контракты — по MLC 2006.</p>
+    </div>
+    <div>
+      <p>Одесса, ул. Приморская, 1<br>+380 48 000 00 00<br>crew@seacrew.example</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

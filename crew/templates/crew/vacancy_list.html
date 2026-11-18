@@ -1,0 +1,20 @@
+{% extends "crew/base.html" %}
+{% block title %}Вакансии для моряков — SeaCrew{% endblock %}
+{% block content %}
+<section class="page wrap">
+  <h1>Вакансии для моряков</h1>
+  <form class="chart chart--light" method="get" aria-label="Фильтр вакансий">
+    <label>Должность {{ form.rank }}</label>
+    <label>Тип судна {{ form.vessel_type }}</label>
+    <label>Оклад от, USD {{ form.min_salary }}</label>
+    <button class="btn btn--navy" type="submit">Применить</button>
+  </form>
+
+  <p class="count">Найдено: {{ vacancies|length }}</p>
+  <div class="grid">
+    {% for v in vacancies %}{% include "crew/_vacancy_card.html" %}{% empty %}
+      <p class="empty">По этим условиям вакансий нет. Снимите часть фильтров или <a href="{% url 'apply' %}">оставьте анкету</a> — мы свяжемся, когда появится подходящая.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

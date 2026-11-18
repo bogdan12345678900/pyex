@@ -1,0 +1,15 @@
+<article class="vcard">
+  <a class="vcard__img" href="{{ v.get_absolute_url }}" tabindex="-1" aria-hidden="true"><img src="{{ v.image_url }}" alt="" loading="lazy"></a>
+  <div class="vcard__body">
+  <div class="vcard__head">
+    <h3><a href="{{ v.get_absolute_url }}">{{ v.rank }}</a></h3>
+    <p class="vcard__pay">${{ v.salary_usd }}<small>/мес.</small></p>
+  </div>
+  <p class="vcard__vessel">{{ v.vessel_type }}{% if v.vessel_name %} «{{ v.vessel_name }}»{% endif %}{% if v.flag %}, флаг: {{ v.flag }}{% endif %}</p>
+  <dl class="vcard__meta">
+    <div><dt>Порт</dt><dd>{{ v.joining_port }}</dd></div>
+    <div><dt>Посадка</dt><dd>{{ v.joining_date|date:"j E Y" }}</dd></div>
+    <div><dt>Контракт</dt><dd>{{ v.contract_months }} мес.</dd></div>
+  </dl>
+  </div>
+</article>
